@@ -9,7 +9,8 @@ import android.widget.TextView
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
-var diceValue:Int = 0
+    var diceValue:Int = 0
+    var dice2Value:Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -26,9 +27,12 @@ var diceValue:Int = 0
 
     private fun rollDice() {
         //Toast.makeText(this, "button clicked", Toast.LENGTH_SHORT).show()
-         diceValue= (1..6).random()
+        //dice one
+        diceValue= (1..6).random()
         updateDice(diceValue)
-
+        //dice two
+        dice2Value= (1..6).random()
+        updateDice2(dice2Value)
 
     }
     private fun countUpDice(){
@@ -40,12 +44,24 @@ var diceValue:Int = 0
         }else if(diceValue == 6){
             Toast.makeText(this, "Maxed Out!", Toast.LENGTH_SHORT).show()
             updateDice(6)
-        }else{
+        }else if(dice2Value == 0){
+            Toast.makeText(this, "Roll The Dice.", Toast.LENGTH_SHORT).show()
+            updateDice2(0)
+        }else if(dice2Value == 6){
+            Toast.makeText(this, "Second Dice Maxed Out!", Toast.LENGTH_SHORT).show()
+            updateDice2(6)
+        }
+        else{
             diceValue++
             //var n:Int = diceres.toInt()
             //n++
             //txtview.text = n.toString()
             updateDice(diceValue)
+
+            //dice two
+            dice2Value++
+            updateDice2(dice2Value)
+
         }
     }
     private fun reset(){
@@ -53,11 +69,28 @@ var diceValue:Int = 0
         //txtview.text = "0"
         diceValue = 0
         updateDice(0)
+        //dice two
+        dice2Value = 0
+        updateDice2(0)
     }
 
     private fun updateDice(diceVal:Int){
 
         val diceImage: ImageView = findViewById(R.id.dice_image)
+        val drawableResource = when (diceVal) {
+            1 -> R.drawable.dice_1
+            2 -> R.drawable.dice_2
+            3 -> R.drawable.dice_3
+            4 -> R.drawable.dice_4
+            5 -> R.drawable.dice_5
+            6 -> R.drawable.dice_6
+            else -> R.drawable.empty_dice
+        }
+        diceImage.setImageResource(drawableResource)
+    }
+    private fun updateDice2(diceVal:Int){
+
+        val diceImage: ImageView = findViewById(R.id.dice_image_two)
         val drawableResource = when (diceVal) {
             1 -> R.drawable.dice_1
             2 -> R.drawable.dice_2
